@@ -1,0 +1,40 @@
+version: "3.3"
+networks:
+  fap-api:
+services:
+  node-app:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - fap-api
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - PORT=8080
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_NAME=project-fap
+      - DB_HOST=mysqlfap
+    container_name: app-fap
+    restart: always
+    depends_on:
+      - mysqlfap
+
+      
+  mysqlfap:
+    image: mysql
+    ports:
+      - "3308:3306"
+    networks:
+      - fap-api
+    volumes:
+      - datasource:/var/lib/database_fap
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: project-fap
+    container_name: database-fap
+
+volumes:
+  datasource:
