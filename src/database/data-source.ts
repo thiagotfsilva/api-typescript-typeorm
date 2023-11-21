@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: "mysqlfap",
+  host: process.env.DB_HOST || "mysqlfap",
   port: 3306,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -12,4 +12,5 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   entities: [],
   subscribers: [],
+  migrations: ["src/database/migrations/*.ts"],
 });

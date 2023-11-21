@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev 'src/index.ts'",
-    "build": "tsc","start": "npm run build && node dist/index.js",
+    "dev": "ts-node-dev --transpile-only 'src/index.ts'",
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
     "typeorm": "typeorm-ts-node-commonjs -d src/database/data-source.ts",
     "migration:create": "node scripts/migration-create.js",
     "test": "echo \"Error: no test specified\" && exit 1"
