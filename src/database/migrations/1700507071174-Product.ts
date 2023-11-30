@@ -4,16 +4,17 @@ export class Product1700507071174 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "product",
+        name: "products",
         columns: [
           {
             name: "id",
             type: "int",
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: "increment",
           },
           {
-            name: "name_product",
+            name: "nameProduct",
             type: "varchar",
             isNullable: false,
           },
@@ -21,7 +22,6 @@ export class Product1700507071174 implements MigrationInterface {
             name: "quantity",
             type: "varchar",
             isNullable: false,
-            isUnique: true,
           },
           {
             name: "price",
@@ -44,6 +44,6 @@ export class Product1700507071174 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("product")
+    await queryRunner.dropTable("products")
   }
 }

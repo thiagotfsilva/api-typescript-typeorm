@@ -4,12 +4,13 @@ export class Employee1700506080760 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "employee",
+        name: "employees",
         columns: [
           {
             name: "id",
             type: "int",
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: "increment",
           },
           {
@@ -24,7 +25,7 @@ export class Employee1700506080760 implements MigrationInterface {
             isUnique: true,
           },
           {
-            name: "passowrd",
+            name: "password",
             type: "varchar",
             isNullable: false,
           },
@@ -34,7 +35,7 @@ export class Employee1700506080760 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: "numero_vendas",
+            name: "quantitySale",
             type: "int",
             isNullable: false,
           },
@@ -59,6 +60,6 @@ export class Employee1700506080760 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("employee")
+    await queryRunner.dropTable("employees")
   }
 }

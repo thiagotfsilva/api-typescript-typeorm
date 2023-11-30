@@ -9,12 +9,13 @@ export class Sale1700513234615 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "sale",
+        name: "sales",
         columns: [
           {
             name: "id",
             type: "int",
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: "increment",
           },
           {
@@ -28,7 +29,7 @@ export class Sale1700513234615 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: "clientId",
+            name: "clientsId",
             type: "int",
             isNullable: false,
           },
@@ -57,37 +58,34 @@ export class Sale1700513234615 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      "sale",
+      "sales",
       new TableForeignKey({
-        columnNames: ["clientId"],
+        columnNames: ["clientsId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "client",
-        onDelete: "CASCADE",
+        referencedTableName: "clients"
       })
     );
 
     await queryRunner.createForeignKey(
-      "sale",
+      "sales",
       new TableForeignKey({
         columnNames: ["productId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "product",
-        onDelete: "CASCADE",
+        referencedTableName: "products"
       })
     );
 
     await queryRunner.createForeignKey(
-      "sale",
+      "sales",
       new TableForeignKey({
         columnNames: ["employeeId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "employee",
-        onDelete: "CASCADE",
+        referencedTableName: "employees"
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("address");
+    await queryRunner.dropTable("sales");
   }
 }

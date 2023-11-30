@@ -1,5 +1,11 @@
 import "dotenv/config";
+import "reflect-metadata";
+import Client from "../entities/client/Client";
+import Employee from "../entities/employee/Employee";
 import { DataSource } from "typeorm";
+import Address from "../entities/address/Address";
+import Product from "../entities/product/Product";
+import Sale from "../entities/sale/Sale";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -10,7 +16,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   logging: true,
   synchronize: false,
-  entities: [],
+  entities: [Employee, Client, Address, Product, Sale],
   subscribers: [],
   migrations: ["src/database/migrations/*.ts"],
 });

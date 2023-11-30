@@ -1,7 +1,9 @@
+import "dotenv/config";
 import { Server } from "@overnightjs/core";
 import * as bodyparser from "body-parser";
-import UserController from "./controllers/UserController";
-import 'dotenv/config';
+import { AppDataSource } from "./database/data-source";
+import ClientController from "./controllers/clientController/ClientController";
+import cors from "cors";
 
 export default class AppSever extends Server {
   constructor() {
@@ -12,16 +14,18 @@ export default class AppSever extends Server {
   private init() {
     this.setup();
     this.setupController();
+    this.startDB();
   }
 
   private setup() {
+    this.app.use(cors());
     this.app.use(bodyparser.json());
     this.app.use(bodyparser.urlencoded({ extended: true }));
   }
 
   private setupController() {
-    const userController = new UserController();
-    super.addControllers([userController]);
+    const clientController = new ClientController()
+    super.addControllers([clientController]);
   }
 
   public start() {
@@ -29,5 +33,13 @@ export default class AppSever extends Server {
     this.app.listen(port, () =>
       console.log(`Server is running in port ${port}`)
     );
+  }
+
+  private async startDB(): Promise<void> {
+    try {
+      await AppDataSource.initialize();
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
