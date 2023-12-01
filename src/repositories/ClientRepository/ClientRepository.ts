@@ -24,7 +24,12 @@ export default class ClientRepository {
   }
 
   async get(id: number): Promise<Client | null> {
-    return await this.clientRepository.findOneBy({ id });
+    const client = await this.clientRepository.findOneBy({ id });
+    if (!client) {
+      throw new Error("client not found");
+    };
+
+    return client;
   }
 
   async destroy(id: number): Promise<void> {

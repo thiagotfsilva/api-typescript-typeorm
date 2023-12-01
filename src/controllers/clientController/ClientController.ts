@@ -1,11 +1,12 @@
-import { Controller, Delete, Get, Post, Put } from "@overnightjs/core";
-import { Request, Response } from "express";
+import { Controller, Delete, Get, Post } from "@overnightjs/core";
+import { NextFunction, Request, Response } from "express";
 import CreateClient from "../../useCases/client/CreateClient/CreateClient";
 import FindAllClients from "../../useCases/client/FindAllClients/FindAllClients";
 import FindClient from "../../useCases/client/FindClient/FindClient";
 import DeleteClient from "../../useCases/client/DeleteClient/DeleteClient";
 import UpdateClient from "../../useCases/client/UpdateClient/UpdateClient";
-import UpdateClientDTO from "../../useCases/client/UpdateClient/UpdateClientDTO";
+import ResponseHandler from "../../utils/http/ResponseHandler";
+import HttpErro from "../../utils/http/errors/HttpErro";
 
 @Controller("api/v1/clients")
 export default class CreateClientController {
@@ -24,7 +25,11 @@ export default class CreateClientController {
   }
 
   @Post("")
-  async create(req: Request, res: Response): Promise<Response> {
+  async create(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> {
     try {
       const { name, email, cpf, password } = req.body;
       const client = await this.createClient.execute({
@@ -33,33 +38,44 @@ export default class CreateClientController {
         cpf,
         password,
       });
-      return res.status(201).json({ client: client });
+      return ResponseHandler.sendResponse(
+        res,
+        client,
+        "client created successfully",
+        201
+      );
     } catch (error) {
-      const err = error as Error;
-      return res.status(400).json(err.message);
+     next(error);
+      
     }
   }
 
   @Get("")
-  async getAll(req: Request, res: Response): Promise<Response> {
+  async getAll(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> {
     try {
       const clients = await this.findAllClients.execute();
       return res.status(200).json({ data: clients });
     } catch (error) {
-      const err = error as Error;
-      return res.status(400).json(err.message);
+      next(error);
     }
   }
 
   @Get(":id")
-  async get(req: Request, res: Response): Promise<Response> {
+  async get(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> {
     try {
       const id = Number(req.params.id);
       const client = await this.findClient.execute(id);
-      return res.status(200).json(client);
+      return ResponseHandler.sendResponse(res, client, "ok");
     } catch (error) {
-      const err = error as Error;
-      return res.status(400).json(err.message);
+      next(error);
     }
   }
 
@@ -68,7 +84,7 @@ export default class CreateClientController {
     try {
       const id = Number(req.params.id);
       await this.deleteClient.execute(id);
-      return res.status(203).json({})
+      return res.status(203).json({});
     } catch (error) {
       const err = error as Error;
       return res.status(400).json(err.message);
