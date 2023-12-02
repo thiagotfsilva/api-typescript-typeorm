@@ -5,7 +5,7 @@ import { AppDataSource } from "./database/data-source";
 import ClientController from "./controllers/clientController/ClientController";
 import cors from "cors";
 import { handleErrors } from "./middlewares/errors/handlerError"; 
-import { handler404 } from "./middlewares/errors/handler404";
+import { handler404 } from "./middlewares/errors/handlerPageNotFound";
 
 export default class AppSever extends Server {
   constructor() {
@@ -33,6 +33,7 @@ export default class AppSever extends Server {
 
   private setupErrorHandler() {
     this.app.use(handleErrors);
+    this.app.use(handler404);
   }
 
   public start() {
