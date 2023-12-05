@@ -8,8 +8,13 @@ export default class DeleteClient {
   }
 
   async execute(id: number): Promise<void> {
+
     if (!id) {
       throw new Error("id is missing");
+    }
+
+    if (!await this.repository.get(id)) {
+      throw new Error("Client not found");
     }
 
     await this.repository.destroy(id);

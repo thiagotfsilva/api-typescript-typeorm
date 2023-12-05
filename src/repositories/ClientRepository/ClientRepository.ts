@@ -1,3 +1,4 @@
+import { Paginator } from "../../database/Paginator";
 import { AppDataSource } from "../../database/data-source";
 import Client from "../../entities/client/Client";
 import { Repository } from "typeorm";
@@ -9,8 +10,11 @@ export default class ClientRepository {
     this.clientRepository = AppDataSource.getRepository(Client);
   }
 
-  async getAll(): Promise<Client[]> {
-    return await this.clientRepository.find();
+  async getAll(info: any): Promise<any>{
+    const builder =  this.clientRepository.createQueryBuilder()
+      .orderBy("id", "DESC");
+
+    return await Paginator.paginate(builder, info); 
   }
 
   async save(

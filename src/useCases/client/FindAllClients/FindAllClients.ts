@@ -8,7 +8,7 @@ export default class FindAllClients {
     this.repository = new ClientRepository();
   }
 
-  async execute(): Promise<Client[]> {
-    return await this.repository.getAll();
+  async execute(info: any): Promise<Client[]> {
+    return await this.repository.getAll(info);
   }
 }

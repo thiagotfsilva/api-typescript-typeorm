@@ -45,8 +45,7 @@ export default class CreateClientController {
         201
       );
     } catch (error) {
-     next(error);
-      
+      next(error);
     }
   }
 
@@ -57,7 +56,7 @@ export default class CreateClientController {
     next: NextFunction
   ): Promise<Response | void> {
     try {
-      const clients = await this.findAllClients.execute();
+      const clients = await this.findAllClients.execute(req);
       return res.status(200).json({ data: clients });
     } catch (error) {
       next(error);
@@ -80,14 +79,16 @@ export default class CreateClientController {
   }
 
   @Delete(":id")
-  async delete(req: Request, res: Response): Promise<Response> {
+  async delete(req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> {
     try {
       const id = Number(req.params.id);
       await this.deleteClient.execute(id);
-      return res.status(203).json({});
+      return ResponseHandler.sendResponse(res, "", "Cliente deletado", 204)
     } catch (error) {
-      const err = error as Error;
-      return res.status(400).json(err.message);
+      next(error);
     }
   }
 
