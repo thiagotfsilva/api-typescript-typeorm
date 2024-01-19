@@ -1,5 +1,5 @@
-import "dotenv/config";
 import "reflect-metadata";
+import "dotenv/config";
 import Client from "../entities/client/Client";
 import Employee from "../entities/employee/Employee";
 import { DataSource } from "typeorm";

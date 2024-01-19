@@ -1,4 +1,4 @@
-import ClientRepository from "../../../repositories/ClientRepository/ClientRepository";
+import ClientRepository from "@repositories/ClientRepository/ClientRepository";
 
 export default class DeleteClient {
   private repository: ClientRepository;
@@ -8,12 +8,7 @@ export default class DeleteClient {
   }
 
   async execute(id: number): Promise<void> {
-
-    if (!id) {
-      throw new Error("id is missing");
-    }
-
-    if (!await this.repository.get(id)) {
+    if (!(await this.repository.get(id))) {
       throw new Error("Client not found");
     }
 

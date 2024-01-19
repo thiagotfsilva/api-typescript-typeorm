@@ -3,8 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -27,8 +28,8 @@ export default class Sale {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Product, (product) => product.sale)
-  @JoinColumn({ name: "productId" })
+  @ManyToMany(() => Product)
+  @JoinTable({ name: "producsts" })
   product: Product[];
 
   @ManyToOne(() => Employee, (employee) => employee.sale)

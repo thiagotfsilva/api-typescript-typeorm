@@ -1,13 +1,14 @@
 #! /usr/bin/env node
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const yargs = require("yargs");
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const { execSync } = require("child_process");
-
 
 // Parse the command-line arguments
 const {
   _: [name],
-  path
+  path,
 } = yargs.argv;
 
 // Construct the migration path

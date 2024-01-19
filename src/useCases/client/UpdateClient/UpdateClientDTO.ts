@@ -1,5 +1,3 @@
-
-
 export default class UpdateClientDTO {
   id: number;
   name: string;

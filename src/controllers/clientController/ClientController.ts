@@ -1,12 +1,12 @@
-import { Controller, Delete, Get, Post } from "@overnightjs/core";
+import { Controller, Delete, Get, Post, Put } from "@overnightjs/core";
+import CreateClient from "@useCases/client/CreateClient/CreateClient";
+import DeleteClient from "@useCases/client/DeleteClient/DeleteClient";
+import FindAllClients from "@useCases/client/FindAllClients/FindAllClients";
+import FindClient from "@useCases/client/FindClient/FindClient";
+import ClientRepository from "@repositories/ClientRepository/ClientRepository";
+import UpdateClient from "@useCases/client/UpdateClient/UpdateClient";
+import ResponseHandler from "@utils/http/ResponseHandler";
 import { NextFunction, Request, Response } from "express";
-import CreateClient from "../../useCases/client/CreateClient/CreateClient";
-import FindAllClients from "../../useCases/client/FindAllClients/FindAllClients";
-import FindClient from "../../useCases/client/FindClient/FindClient";
-import DeleteClient from "../../useCases/client/DeleteClient/DeleteClient";
-import UpdateClient from "../../useCases/client/UpdateClient/UpdateClient";
-import ResponseHandler from "../../utils/http/ResponseHandler";
-import HttpErro from "../../utils/http/errors/HttpErro";
 
 @Controller("api/v1/clients")
 export default class CreateClientController {
@@ -28,7 +28,7 @@ export default class CreateClientController {
   async create(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<Response | void> {
     try {
       const { name, email, cpf, password } = req.body;
@@ -38,11 +38,12 @@ export default class CreateClientController {
         cpf,
         password,
       });
+
       return ResponseHandler.sendResponse(
         res,
         client,
         "client created successfully",
-        201
+        201,
       );
     } catch (error) {
       next(error);
@@ -53,7 +54,7 @@ export default class CreateClientController {
   async getAll(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<Response | void> {
     try {
       const clients = await this.findAllClients.execute(req);
@@ -67,7 +68,7 @@ export default class CreateClientController {
   async get(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<Response | void> {
     try {
       const id = Number(req.params.id);
@@ -79,33 +80,46 @@ export default class CreateClientController {
   }
 
   @Delete(":id")
-  async delete(req: Request,
+  async delete(
+    req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<Response | void> {
     try {
       const id = Number(req.params.id);
       await this.deleteClient.execute(id);
-      return ResponseHandler.sendResponse(res, "", "Cliente deletado", 204)
+      return ResponseHandler.sendResponse(res, "", "Cliente deletado", 204);
     } catch (error) {
       next(error);
     }
   }
 
-  /* @Put(":id")
-  async update(req: Request, res: Response): Promise<Response> {
+  @Put(":id")
+  async update(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
     try {
       const { name, cpf, password } = req.body;
       const id = Number(req.params.id);
-      const newClient = new UpdateClientDTO();
-      newClient.name = name;
-      newClient.cpf = cpf;
-      newClient.password = password;
-      // const client = this.updateClient.execute(id, {name, cpf, password}  );
-      return res.status(200).json(client);
+      const client = await this.updateClient.execute(id, name, cpf, password);
+      return ResponseHandler.sendResponse(res, client, "Client updated", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Get("address/:clientId")
+  async getClientAndAddress(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.clientId);
+      const repo = new ClientRepository();
+      const client = await repo.get(id);
+      return res.status(200).json({ data: client?.address });
     } catch (error) {
       const err = error as Error;
       return res.status(400).json(err.message);
     }
-  } */
+  }
 }

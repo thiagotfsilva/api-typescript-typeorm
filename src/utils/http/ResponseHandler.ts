@@ -12,7 +12,7 @@ export default class ResponseHandler {
       sucees: true,
       message,
       data,
-      paginationInfo
+      paginationInfo,
     });
   }
 
@@ -26,7 +26,6 @@ export default class ResponseHandler {
       sucees: false,
       message,
       error,
-      
     });
   }
 }

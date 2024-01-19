@@ -47,7 +47,7 @@ export class Client1700504716997 implements MigrationInterface {
             isNullable: true,
           },
         ],
-      })
+      }),
     );
   }
 

@@ -55,11 +55,11 @@ export class Employee1700506080760 implements MigrationInterface {
             default: "now()",
           },
         ],
-      })
+      }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("employees")
+    await queryRunner.dropTable("employees");
   }
 }

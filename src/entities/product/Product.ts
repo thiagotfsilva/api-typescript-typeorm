@@ -1,22 +1,24 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import Sale from "../sale/Sale";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 @Entity("products")
 export default class Product {
-  @PrimaryGeneratedColumn()  
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   nameProduct: string;
   @Column()
-  quantity: string;
+  quantity: number;
   @Column()
-  price: string;
+  price: number;
 
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @ManyToOne(() => Sale, (sale) => sale.product)
-  sale: Sale
 }

@@ -5,7 +5,7 @@ export function handleErrors(
   error: Error,
   _: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const err = new HttpErro();
   err.message = error.message;

@@ -10,15 +10,12 @@ interface PaginationInfo {
 }
 
 export class Paginator {
-  static async paginate(
-    queryBuilder: SelectQueryBuilder<any>,
-    req: any,
-  ) {
+  static async paginate(queryBuilder: SelectQueryBuilder<any>, req: any) {
     // página atual
-    let page = Number(req.query.page) || 1;
+    const page = Number(req.query.page) || 1;
 
     // tamanho da páginas - numero de itens
-    let pageSize = Number(req.query.pageSize) || 10;
+    const pageSize = Number(req.query.pageSize) || 10;
 
     //deslocamento
     const offset = (page - 1) * page;
@@ -44,7 +41,6 @@ export class Paginator {
       hasNext,
       hasPrev,
     };
-
 
     return { records, paginationInfo };
   }

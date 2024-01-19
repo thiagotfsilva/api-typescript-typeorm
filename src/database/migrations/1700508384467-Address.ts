@@ -64,7 +64,7 @@ export class Address1700508384467 implements MigrationInterface {
             default: "now()",
           },
         ],
-      })
+      }),
     );
 
     await queryRunner.createForeignKey(
@@ -73,7 +73,7 @@ export class Address1700508384467 implements MigrationInterface {
         columnNames: ["clientId"],
         referencedColumnNames: ["id"],
         referencedTableName: "clients",
-      })
+      }),
     );
   }
 

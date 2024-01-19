@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import Client from "../client/Client";
 
-
 @Entity("address")
 export default class Address {
   @PrimaryGeneratedColumn()
@@ -27,7 +26,6 @@ export default class Address {
   zipCode: string;
   @Column()
   complement: string;
-
 
   @CreateDateColumn()
   createdAt: Date;

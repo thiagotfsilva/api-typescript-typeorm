@@ -18,11 +18,7 @@ export class Sale1700513234615 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: "increment",
           },
-          {
-            name: "productId",
-            type: "int",
-            isNullable: false,
-          },
+
           {
             name: "employeeId",
             type: "int",
@@ -54,7 +50,7 @@ export class Sale1700513234615 implements MigrationInterface {
             default: "now()",
           },
         ],
-      })
+      }),
     );
 
     await queryRunner.createForeignKey(
@@ -62,17 +58,8 @@ export class Sale1700513234615 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ["clientsId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "clients"
-      })
-    );
-
-    await queryRunner.createForeignKey(
-      "sales",
-      new TableForeignKey({
-        columnNames: ["productId"],
-        referencedColumnNames: ["id"],
-        referencedTableName: "products"
-      })
+        referencedTableName: "clients",
+      }),
     );
 
     await queryRunner.createForeignKey(
@@ -80,8 +67,8 @@ export class Sale1700513234615 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ["employeeId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "employees"
-      })
+        referencedTableName: "employees",
+      }),
     );
   }
 

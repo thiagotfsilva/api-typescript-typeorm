@@ -1,5 +1,5 @@
-import Client from "../../../entities/client/Client";
-import ClientRepository from "../../../repositories/ClientRepository/ClientRepository";
+import Client from "@entities/client/Client";
+import ClientRepository from "@repositories/ClientRepository/ClientRepository";
 
 export default class FindClient {
   private repository: ClientRepository;

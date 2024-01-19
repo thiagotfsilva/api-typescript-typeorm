@@ -1,24 +1,10 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 import Sale from "../sale/Sale";
+import Address from "../address/Address";
+import User from "../user/User";
 
 @Entity("employees")
-export default class Employee {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  name: string;
-  @Column()
-  email: string;
-  @Column()
-  password: string;
+export default class Employee extends User {
   @Column()
   office: string;
   @Column()
@@ -26,11 +12,10 @@ export default class Employee {
   @Column()
   cpf: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-  @UpdateDateColumn()
-  updatedAt: Date;
-
+  @OneToOne(() => Address, (address) => address.client, {
+    cascade: true,
+  })
+  address: Address;
   @OneToMany(() => Sale, (sale) => sale.employee, {
     cascade: true,
   })

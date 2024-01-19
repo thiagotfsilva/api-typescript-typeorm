@@ -10,20 +10,33 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@src/*": ["./src/*"],
-      "@test/*": ["./test/*"]
+      "@controllers/*": [
+        "src/controllers/*"
+      ],
+      "@entities/*": [
+        "src/entities/*"
+      ],
+      "@middlewares/*": [
+        "src/middlewares/*"
+      ],
+      "@repositories/*": [
+        "src/repositories/*"
+      ],
+      "@useCases/*": [
+        "src/useCases/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
     },
-    "rootDirs": [
-      "./src",
-      "./test"
-    ],
-    
+
+    "rootDir": "src",
+
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts"
   ],
   "exclude": [
     "./node_modules/*",
